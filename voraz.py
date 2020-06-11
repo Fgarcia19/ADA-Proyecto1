@@ -19,8 +19,54 @@ def peso(A,B):
     else:
         return sum(A)/B
 
+def valor(a):
+    return a[1]-a[0]+1
+
+
 def iterar(A,B):
-    for i in A:
+    j=0
+    i=0
+    sum1=valor(A[0])
+    sum2=valor(B[0])
+    respuestas=[]
+    # for i in range(0,len(A)):
+    while(i<len(A)):
+        print("A ",i,end=' ')
+        print("B ",j)
+        # print(i,end=' ')
+        # print(j,end=' ')
+        # print(sum1,end=' ')
+        # print(sum2)
+        if j==len(B)-1:
+            i+=1
+        elif sum1 > sum2:
+            j+=1
+            sum2 += valor(B[j])
+            if sum1<=sum2:
+                print("A ", i, end=' ')
+                print("B ", j)
+                # print(i, end=' ')
+                # print(j,end=' ')
+                # print(sum1, end=' ')
+                # print(sum2)
+                i+=1
+                j+=1
+                sum1 = valor(A[i])
+                sum2 = valor(B[j])
+        else:
+            i+=1
+            sum1 += valor(A[i])
+            if sum1 >= sum2:
+                print("A ", i, end=' ')
+                print("B ", j)
+                # print(i, end=' ')
+                # print(j, end=' ')
+                # print(sum1, end=' ')
+                # print(sum2)
+                i += 1
+                j += 1
+                sum1 = valor(A[i])
+                sum2 = valor(B[j])
 
 
 def voraz():
