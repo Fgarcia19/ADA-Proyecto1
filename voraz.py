@@ -1,3 +1,5 @@
+matchings=[]
+
 def bloques(A):
     A_bloques = []
     inicio = -1
@@ -28,27 +30,18 @@ def iterar(A,B):
     i=0
     sum1=valor(A[0])
     sum2=valor(B[0])
-    respuestas=[]
-    # for i in range(0,len(A)):
+    match=[]
     while(i<len(A)):
-        print("A ",i,end=' ')
-        print("B ",j)
-        # print(i,end=' ')
-        # print(j,end=' ')
-        # print(sum1,end=' ')
-        # print(sum2)
+        match.append((i,j))
         if j==len(B)-1:
             i+=1
         elif sum1 > sum2:
             j+=1
             sum2 += valor(B[j])
             if sum1<=sum2:
-                print("A ", i, end=' ')
-                print("B ", j)
-                # print(i, end=' ')
-                # print(j,end=' ')
-                # print(sum1, end=' ')
-                # print(sum2)
+                match.append((i, j))
+                matchings.append(match)
+                match=[]
                 i+=1
                 j+=1
                 sum1 = valor(A[i])
@@ -57,16 +50,20 @@ def iterar(A,B):
             i+=1
             sum1 += valor(A[i])
             if sum1 >= sum2:
-                print("A ", i, end=' ')
-                print("B ", j)
-                # print(i, end=' ')
-                # print(j, end=' ')
-                # print(sum1, end=' ')
-                # print(sum2)
+                match.append((i, j))
                 i += 1
                 j += 1
+                matchings.append(match)
+                match=[]
                 sum1 = valor(A[i])
                 sum2 = valor(B[j])
+    matchings.append(match)
+    print(matchings)
+    print("Los conjuntos de matching son")
+    for i in range(0,len(matchings)):
+        print("Match ",i,end=' ')
+        print(matchings[i])
+
 
 
 def voraz():
@@ -80,12 +77,6 @@ def voraz():
         iterar(bloquesA,bloquesB)
     else:
         iterar(bloquesB,bloquesA)
-
-
-
-    print(bloquesA)
-    print(bloquesB)
-   # print(sum([1,2,3]))
 
 
 if __name__ == "__main__":
