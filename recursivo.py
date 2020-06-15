@@ -37,8 +37,6 @@ def peso_matching(A,B,m):
             t_B=i[1]
     return (v_A/v_B)
 
-memo=[]
-
 def recursivo(A,B,i,j,k,l):
     matchs = []
     if i==j:
