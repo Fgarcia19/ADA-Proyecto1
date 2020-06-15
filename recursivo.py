@@ -61,7 +61,7 @@ def recursivo(A,B,i,j,k,l):
         if(result[1]<match_primer_loop[1]):
             match_primer_loop=result
     match_segundo_loop=((),math.inf)
-    for a in range(j-1,i,-1):
+    for a in range(j-1,i-1,-1):
         first=recursivo(A,B,i,a,k,k)
         second=recursivo(A,B,a+1,j,k+1,l)
         result=(first[0]+second[0],first[1]+second[1])
