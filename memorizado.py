@@ -78,7 +78,7 @@ def recursivo(A,B,i,j,k,l):
             match_primer_loop=result
 
     match_segundo_loop=((),math.inf)
-    for a in range(j-1,i,-1):
+    for a in range(j-1,i-1,-1):
         if (i,a,k,k) in memo:
             print("Sacando")
             first=memo[(i,a,k,k)]
