@@ -39,7 +39,7 @@ def peso_matching(A,B,m):
 
 memo={}
 
-def recursivo(A,B,i,j,k,l):
+def memoizado(A,B,i,j,k,l):
     matchs = []
 
     if (i,j,k,l) in memo:
@@ -64,14 +64,14 @@ def recursivo(A,B,i,j,k,l):
             first=memo[(i,i,k,a)]
         else:
             print("Calculando")
-            first = (recursivo(A, B, i, i, k, a))
+            first = (memoizado(A, B, i, i, k, a))
             memo[(i, i, k, a)]=first
         if (i+1,j,a+1,l) in memo:
             print("Sacando")
             second = memo[(i + 1, j, a + 1, l)]
         else:
             print("Calculando")
-            second = (recursivo(A, B, i + 1, j, a + 1, l))
+            second = (memoizado(A, B, i + 1, j, a + 1, l))
             memo[(i + 1, j, a + 1, l)]=second
         result=(first[0]+second[0],first[1]+second[1])
         if(result[1]<match_primer_loop[1]):
@@ -84,14 +84,14 @@ def recursivo(A,B,i,j,k,l):
             first=memo[(i,a,k,k)]
         else:
             print("Calculando")
-            first = (recursivo(A, B,i,a,k,k))
+            first = (memoizado(A, B,i,a,k,k))
             memo[(i,a,k,k)]=first
         if (a+1,j,k+1,l) in memo:
             print("Sacando")
             second = memo[(a+1,j,k+1,l)]
         else:
             print("Calculando")
-            second = (recursivo(A, B,a+1,j,k+1,l))
+            second = (memoizado(A, B,a+1,j,k+1,l))
             memo[(a+1,j,k+1,l)]=second
         result=(first[0]+second[0],first[1]+second[1])
         if(result[1]<match_segundo_loop[1]):
@@ -116,11 +116,11 @@ if __name__ == "__main__":
     # B=[1,1,1,1,1,0,1,0]
     print(bloques(A))
     print(bloques(B))
-    m=(recursivo(bloques(A),bloques(B),0,len(bloques(A))-1,0,len(bloques(B))-1))
+    m=(memoizado(bloques(A),bloques(B),0,len(bloques(A))-1,0,len(bloques(B))-1))
 
     print(m)
     # print("Probando")
-    a = (recursivo(bloques(A), bloques(B), 0, len(bloques(A)) - 1, 0, len(bloques(B)) - 1))
+    a = (memoizado(bloques(A), bloques(B), 0, len(bloques(A)) - 1, 0, len(bloques(B)) - 1))
     # print(m[1])
     # print(p)
     print(memo[(0, len(bloques(A)) - 1, 0, len(bloques(B)) - 1)])
