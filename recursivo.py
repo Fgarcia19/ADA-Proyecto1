@@ -37,6 +37,8 @@ def peso_matching(A,B,m):
             t_B=i[1]
     return (v_A/v_B)
 
+memo=[]
+
 def recursivo(A,B,i,j,k,l):
     matchs = []
     if i==j:
@@ -73,17 +75,21 @@ def recursivo(A,B,i,j,k,l):
 
 
 
+def entrada(a):
+    A=[]
+    for i in a:
+        A.append(int(i))
+    return A
 
 if __name__ == "__main__":
-
-    # A = [0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0]
-    # B = [0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0]
-    A=[0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0]
-    B=[0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0]
-
-    # A=[0,1,0,1,0,1,0,1,0,1]
-    # B=[1,1,1,1,1,0,1,0]
+    a=input()
+    b=input()
+    A=entrada(a)
+    B=entrada(b)
+    print("Bloques de A")
     print(bloques(A))
+    print("Bloques de B")
     print(bloques(B))
     m=(recursivo(bloques(A),bloques(B),0,len(bloques(A))-1,0,len(bloques(B))-1))
+    print("Matching minimo y su peso")
     print(m)
