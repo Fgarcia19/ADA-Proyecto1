@@ -1,0 +1,397 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+
+
+\usepackage{listings}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{hyperref}
+
+
+\title{Proyect ADA}
+\author{Cristian Caballero - Alonso Ferreyra - Fabrizio Garcia }
+\date{Junio 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+El presente trabajo representa el analisis y desarrollo de distintos metodos de solución para el problema Min-Matching. Teniendo como entrada dos arreglos A y B de números entre 1 y 0 que se separarán en bloques de 1s (unos) independientes entre ambos arreglos. Cada bloque tiene un peso determinado en base a la cantidad de unos de este. Luego se realizan distintas agrupaciones entre los bloques de ambos arreglos. Cada agrupación tiene un peso determinado por una formula especifica si la agrupacion tiene un bloque de A y varios de B u otra formula si tiene varios bloques de A y uno de B. 
+
+El problema Min-Matching consiste en encontrar la distribución de agrupaciones (matches) que sume un peso menor al de cualquier otra opción de agrupación. A contunuación pasaremos a demostrar diversos algoritmos basados en distintos principios de diseño de algoritmos.
+
+\section{Algoritmo Voraz}
+\subsection{Implementación}
+Lo que hicimos en este algoritmo fue primero asegurarnos que vamos a comenzar a iterar desde el arreglo que tenga la mayor cantidad de bloques.
+Una vez hecho esto, comenzamos analizando bloque por bloque,denominando con i a los bloques de A, y j a los bloques de B. Si el bloque $A_i$ tiene menor peso que el bloque $B_j$ entonces el bloque $A_i$ se unirá con los bloques siguientes hasta que la suma de pesos de estos alcance al peso del bloque $B_j$,caso contrario $B_j$ se unirá con sus siguiente hasta alcanzar el peso de $A_i$. En ambos casos no pueden agruparse con todos los bloques restantes, siempre deben dejar uno para que este haga matching con todos los otros que queden tanto para A como para B.
+\subsection{Tiempo de ejecución}
+En la ejecución del algoritmo observamos que las comparaciones y las operaciones realizadas en el algoritmo son repartidas en relación a los valores del arreglo A, dando como resultado un tiempo de ejecución O(n) siendo n el tamaño del arreglo A.
+
+
+Instruccion-Veces-Tiempo
+
+    matchings=[]  1    1
+            
+    j=0    1    1
+        
+    i=0   1    1
+        
+    sum1=valor(A[0])  1    1
+    
+    sum2=valor(B[0])  1    1
+    
+    while($i<len(A)$):  n    1
+    
+    print("A ",i,end=' ')   n    1 
+        
+        print("B ",j)      n    1
+        
+        matchings.append((i,j))                                     n    1
+        
+        if j==len(B)-1:                                             n    1
+        
+            i+=1                                                    n    1
+            
+        elif i==len(A)-1:                                           n    1
+        
+            j+=1                                                    n    1
+            
+        elif $sum1 > sum2$:                                         n    1
+        
+            j+=1                                                    n    1
+            
+            if j<len(B)-1:                                          n    1
+            
+                sum2 += valor(B[j])                                 n    1
+                
+                if sum1<sum2 :                                      n    1
+                
+                    print("A ", i, end=' ')                         n    1
+                
+                    print("B ", j)                                  n    1
+                    
+                    matchings.append((i , j))                       n    1
+                
+                    i+=1                                            n    1
+                
+                    $if i==len(A):$                                 n    1
+                
+                        break;                                      n    1
+                
+                    j+=1                                            n    1
+                
+                    if j==len(B):                                   n    1
+                
+                        break;                                      n    1
+                
+                    sum1 = valor(A[i])                              n    1
+                
+                    sum2 = valor(B[j])                              n    1
+
+            else:                                                   n    1
+                
+                i+=1                                                n    1
+        
+        elif $sum1 <= sum2$:                                        n    1
+        
+            i+=1                                                    n    1 
+        
+            if i<len(A)-1:                                          n    1
+        
+                sum1 += valor(A[i])                                 n    1
+        
+                $if sum1 > sum2:$                                   n    1
+        
+                    print("A ", i, end=' ')                         n    1
+        
+                    print("B ", j)                                  n    1
+        
+                    matchings.append((i, j))                        n    1
+        
+                    i += 1                                          n    1
+        
+                    if i==len(A):                                   n    1
+        
+                        break;                                      n    1
+        
+                    j += 1                                          n    1
+        
+                    if j==len(B):                                   n    1
+            
+                        break;                                      n    1
+        
+                    sum1 = valor(A[i])                              n    1
+        
+                    sum2 = valor(B[j])                              n    1
+
+
+        
+            else:                                                   n    1
+        
+                j+=1                                                n    1
+
+
+Al sumar estos tiempos, tenemos que el tiempo de ejecucion seria k*n, siendo k =46, lo cual puede expresarse como $O(n)$
+
+\subsection{Diseño}
+
+\begin{algorithmic}[1]
+
+\Require Dos arreglos de tuplas A y B
+  
+\Ensure Un posible matching de peso minimo$$$$
+ \title{\textsc{Voraz}$(A,B)$}
+    \State{$i =0$  }
+    \State{$j =0$  }
+    \State{$sum1=valor(A[0])$  }
+    \State{$sum2=valor(B[0])$  }    
+    \While {$i<len(A)$}
+        \state matchings.append((i,j))
+        \If {$j==len(B)-1$}
+            \state i+=1
+        \EndIf
+        \If{$i==len(A)-1$}
+            \state j+=1
+        \Else
+            \If{$sum1>sum2$}
+                \state j+=1
+                      \If{$j<len(B)-1$}
+                \state sum2 += valor(B[j])
+                \If{$sum1<sum2$ }
+                    \state matchings.append((i , j))
+                    \statei+=1
+                    \If{$i==len(A)$}
+                        \state break;
+                    \EndIf
+                    \state $j+=1$
+                    \If{ $j==len(B)$}
+                        \state break;
+                    \EndIf
+                    \state $sum1 = valor(A[i])$
+                    \state $sum2 = valor(B[j])$
+                \EndIf
+            
+                        
+            \Else
+                \state $i+=1$
+            \EndIf
+            \EndIf
+            \If{$sum1 \leq sum2$}
+                \state i+=1
+                      \If{$i<len(A)-1$}
+                \state sum1 += valor(A[i])
+                \If{$sum1>sum2$ }
+                    \state matchings.append((i , j))
+                    \statei+=1
+                    \If{$i==len(A)$}
+                        \state break;
+                    \EndIf
+                    \state $j+=1$
+                    \If{ $j==len(B)$}
+                        \state break;
+                    \EndIf
+                    \state $sum1 = valor(A[i])$
+                    \state $sum2 = valor(B[j])$
+                \EndIf
+            
+                        
+            \Else
+                \state $j+=1$
+            \EndIf
+            
+            \EndIf
+            \EndIf
+            \state peso=pesomatching(A,B,matchings)
+            \State \textbf{return} matchings,peso
+
+                
+\end{algorithmic}
+
+\section{Recurrencia OPT}
+
+\begin{equation*}OPT(i,j,k,l) =\begin{cases}W((i,c):k\leq c\leq l) & i = j\\W((c,k):i\leq c\leq j) & k=l\\min (min(OPT(i,i,k,c)+OPT(i+1,j,c+1,l): l-1 \geq c \geq k),min(OPT(i,c,k,k)+\\OPT(c+1,j,k+1,l):j-1 \geq c \geq i)) & \text{caso contrario }\end{cases}\end{equation*}
+
+
+\section{Algoritmo Recursivo}
+\subsection{Implementación}
+
+A diferencia del voraz, este sí te devolverá una verdadera solución al problema; sin embargo, el tiempo de este será mucho mayor.Lo que hace es ir probando con todas los matchings posibles y quedarse con el mínimo. Esto lo hace al ir dividiendo el problema en subproblemas hasta llegar a uno de los casos bases.
+
+\subsection{Tiempo de ejecución}
+
+
+F(i,j,k,l)=(n(max(((F(i,i,k,l-1)+F(i+1,j,l,l)),(F(i,j-1,k,k)+F(j,j,k+1,l)))))
+
+
+Por inducción, decimos que F(i,j,k,l)=$\Omega(2^n)$, siendo $n=j-i + l-k$, por lo que
+
+
+F(i,j,k,l)=(n*max((F(i,i,k,l-1)+F(i+1,j,l,l),F(i,j-1,k,k)+F(j,j,k+1,l))))
+
+$k*2^n \leq = {n*(2^n)}$
+
+
+
+
+Como sigue cumpliendo la desigualdad, su tiempo de ejecucion sera $\Omega(2^n)$
+\subsection{Diseño}
+
+\begin{algorithmic}[1]
+
+\Require Dos arreglos de bloques A y B, y 4 enteros i,j,k,l que serán utilizados como los límites para iterar sobre los arreglos. 
+
+\Ensure El matching con peso mínimo entre los arreglos A y B usando los límites establecidos, y el valor del peso del matching.
+
+\title{\textsc{recursivo(A,B,i,j,k,l)}}
+\State matchs[]
+\If{i==j}
+\For{a=k \textbf{to} l+1}
+\State matchs.append(i,a)
+\EndFor
+\State peso = peso\_matching(A,B,matchs)
+\State \textbf{return} matchs, peso
+\EndIf
+\State 
+\If{k==l}
+\For{a=i \textbf{to} j+1}
+\State matchs.append(a,k)
+\EndFor
+\State peso = peso\_matching(A,B,matchs)
+\State \textbf{return} matchs, peso
+\EndIf
+\State
+\State match\_primer\_loop=((),$\infty$)
+\For{a=l-1 \textbf{until} k-1}
+\State first=(recursivo(A,B,i,i,k,a))
+\State second=(recursivo(A,B,i+1,j,a+1,l))
+\State result=(first[0]+second[0],first[1]+second[1])
+\If{result[1]$<$match\_primer\_loop[1]}
+\State match\_primer\_loop=result
+\EndIf
+\EndFor
+\State
+\State match\_segundo\_loop=((),$\infty$)
+\For{a=j-1 \textbf{until} i-1}
+\State first=(recursivo(A,B,i,a,k,k))
+\State second=(recursivo(A,B,a+1,j,k+1,l))
+\State result=(first[0]+second[0],first[1]+second[1])
+\If{result[1]$<$match\_segundo\_loop[1]}
+\State match\_segundo\_loop=result
+\EndIf
+\EndFor
+\State
+\If{match\_primer\_loop[1]$>$match\_segundo\_loop}
+\State \textbf{return} match\_segundo\_loop
+\EndIf
+\State \textbf{return} match\_primer\_loop
+
+\end{algorithmic}
+
+
+
+
+
+
+
+
+\section{Algoritmo Memoizado}
+\subsection{Implementación}
+
+Este es exactamente igual que el recursivo con la diferencia de que hay una variable global,la cual es un diccionario, que almacena cada 4-tupla con su respectivo matching y peso, esto se hace con el fin de que cuando se haya calculado algo y quiera volver usar este valor, no tenga que hacer toda la recursión de nuevo sino solo sacar el valor guardado en el diccionario.
+\subsection{Tiempo de ejecución}
+
+El algoritmo memoizado hace toda la recursión para un primer llamado de (i,j,k,l), pero luego tendrá un costo de O(1). 
+
+Por lo que el costo de este algoritmo sera O((j-i)*(l-k))
+
+\subsection{Diseño}
+
+\begin{algorithmic}
+\Require Dos arreglos de bloques A y B, y 4 enteros i,j,k,l que serán utilizados como los límites para iterar sobre los arreglos. 
+
+\Ensure El matching con peso mínimo entre los arreglos A y B usando los límites establecidos, y el valor del peso del matching.
+
+\title{\textsc{memoizado(A,B,i,j,k,l)}}
+\State matchs[]
+\If{(i,j,k,l) \textbf{in} memo}
+\State \textbf{return} memo[(i,j,k,l)]
+\EndIf
+\If{i==j}
+\For{a=k \textbf{to} l+1}
+\State matchs.append(i,a)
+\EndFor
+\State peso = peso\_matching(A,B,matchs)
+\State \textbf{return} matchs, peso
+\EndIf
+\State 
+\If{k==l}
+\For{a=i \textbf{to} j+1}
+\State matchs.append(a,k)
+\EndFor
+\State peso = peso\_matching(A,B,matchs)
+\State \textbf{return} matchs, peso
+\EndIf
+\State
+\State match\_primer\_loop=((),$\infty$)
+\For{a=l-1 \textbf{until} k-1}
+\If{(i,i,k,a) \textbf{in} memo}
+\State first = memo[(i,i,k,a]
+\Else
+\State first=(memoizado(A,B,i,i,k,a))
+\State memo[(i,i,k,a)] = first
+\EndIf
+\If{(i+1,j,a+1,l) \textbf{in} memo}
+\State second = memo[(i+1,j,a+1,l)]
+\Else
+\State second=(memoizado(A,B,i+1,j,a+1,l))
+\State memo[(i+1,j,a+1,l)] = second
+\EndIf
+\State result=(first[0]+second[0],first[1]+second[1])
+\If{result[1]$<$match\_primer\_loop[1]}
+\State match\_primer\_loop=result
+\EndIf
+\EndFor
+\State
+\State match\_segundo\_loop=((),$\infty$)
+\For{a=j-1 \textbf{until} i-1}
+\If{(i,a,k,k) \textbf{in} memo}
+\State first = memo[(i,a,k,k)]
+\Else
+\State first=(memoizado(A,B,i,a,k,k))
+\State memo[(i,a,k,k)] = first
+\EndIf
+\If{(a+1,j,k+1,l) \textbf{in} memo}
+\State second = memo[(a+1,j,k+1,l]
+\Else
+\State second=(memoizado(A,B,a+1,j,k+1,l))
+\State memo[(a+1,j,k+1,l)] = second
+\EndIf
+\State result=(first[0]+second[0],first[1]+second[1])
+\If{result[1]$<$match\_segundo\_loop[1]}
+\State match\_segundo\_loop=result
+\EndIf
+\EndFor
+\State
+\If{match\_primer\_loop[1]$>$match\_segundo\_loop}
+\State memo[(i,j,k,l)] = match\_segundo\_loop[1]
+\State \textbf{return} match\_segundo\_loop
+\EndIf
+\State memo[(i,j,k,l)] = match\_primer\_loop[1]
+\State \textbf{return} match\_primer\_loop
+
+\end{algorithmic}
+
+
+
+\section{Anexos}
+Link de github:
+\url{https://github.com/Fgarcia19/ADA-Proyecto1}
+
+
+\end{document}
