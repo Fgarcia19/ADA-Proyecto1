@@ -71,7 +71,7 @@ def iterar(A,B):
                 if sum1<sum2 :
                     print("A ", i, end=' ')
                     print("B ", j)
-                    matchings.append((i, j))
+                    matchings.append((i , j))
                     i+=1
                     if i==len(A):
                         break;
@@ -102,17 +102,44 @@ def iterar(A,B):
 
             else:
                 j+=1
+    print("Posible matching minimo calculado de manera voraz")
     print(matchings)
+    print("Peso")
     peso_matching(A,B,matchings)
 
+def entrada(a):
+    A=[]
+    for i in a:
+        A.append(int(i))
+    return A
 
 
 def voraz():
+    a = input()
+    b = input()
+    A = entrada(a)
+    B = entrada(b)
 
-    A=[0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0]
-    B=[0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0]
+    bloquesA=bloques(A)
 
+    bloquesB=bloques(B)
+    print("Bloques de A")
+    print(bloquesA)
+    print("Bloques de B")
+    print(bloquesB)
+    if len(bloquesA)>= len(bloques(B)):
+        iterar(bloquesA,bloquesB)
+    else:
+        iterar(bloquesB,bloquesA)
 
+if __name__ == "__main__":
+    voraz()
+    # A=[0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0]
+    # B=[0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0]
+    # A = [1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+    # B = [1, 0, 1, 1, 0, 1, 1, 1]
+    # A=[0,1,0,1,0,1,0,1,0,1]
+    # B=[1,1,1,1,1,0,1,0]
     # A=[0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0]
     # A=[0,1,0,1,0,1,0,1,0,1]
     # B=[1,1,1,1,1,0,1,0]
@@ -123,13 +150,3 @@ def voraz():
     # B=[0, 0,  1 , 1 , 0 , 1 , 1, 0 , 1 , 0 , 1 , 1 , 0 , 0 , 0 , 0 , 0]
     # A=[1,1,1,0,1,1,0,1,1,1,1,0,1,0,1,1,1,1,1,0]
     # B=[1,1,0,1,1,0,1,1,1,0,1,1,0,0,0,1,0,0,0,0,0]
-    bloquesA=bloques(A)
-    bloquesB=bloques(B)
-    print(bloquesA)
-    print(bloquesB)
-    if len(bloquesA)>= len(bloques(B)):
-        iterar(bloquesA,bloquesB)
-    else:
-        iterar(bloquesB,bloquesA)
-if __name__ == "__main__":
-    voraz()
